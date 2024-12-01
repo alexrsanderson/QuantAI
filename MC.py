@@ -4,6 +4,25 @@ import matplotlib.pyplot as plt
 import datetime as dt
 
 def monteCarlo(portfolio, sims, time, intial_value):
+    """
+    Perform a Monte Carlo simulation of a portfolio of assets.
+    
+    Parameters
+    ----------
+    portfolio : pandas.DataFrame
+        A pandas DataFrame of historical returns of the assets in the portfolio
+    sims : int
+        The number of simulations to run
+    time : int
+        The number of days to simulate
+    intial_value : float
+        The initial value of the portfolio
+        
+    Returns
+    -------
+    A plot of the simulated portfolio values
+    """
+    
     returns = portfolio.pct_change()
     returns = portfolio.dropna()
     cov = returns.cov()
@@ -19,7 +38,7 @@ def monteCarlo(portfolio, sims, time, intial_value):
         L = np.linalg.cholesky(cov)
         daily_ret = meanM + np.inner(L, Z)
         portfolio_sims[:,m] = np.cumprod(np.inner(weights, daily_ret.T) + 1)*intial_value
-
+    plt.figure(figsize=(10,6))
     plt.plot(portfolio_sims)
     plt.ylabel('Portfolio Value (USD$)')
     plt.xlabel('Days')
