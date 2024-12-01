@@ -13,7 +13,7 @@ def sr(portfolio):
     Returns:
     float: the sharpe ratio
     """
-    rf_rate = (yf.download('^TNX', interval='1d', start='2018-01-01')['Adj Close'])/100
+    rf_rate = (yf.download('^TNX', interval='1d', start='2018-01-01', progress=False)['Adj Close'])/100
     rf_rate = rf_rate.dropna()/rf_rate.size
     return (portfolio.mean() - rf_rate.mean())*rf_rate.size / (portfolio.std()*np.sqrt(rf_rate.size))
 def sd_sr(portfolio):
